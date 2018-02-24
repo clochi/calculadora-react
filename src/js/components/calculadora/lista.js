@@ -3,10 +3,12 @@ import React from 'react';
 const Lista = (props) => {
   if(props.result){
     return(
-        props.result.map((item) => <li key={item.es}>{item.mes}: ${item.total}</li>)
+      <ul>
+        {props.result.map((item) => <li key={item.mes}>{item.mes}: ${item.total.toFixed(2)}</li>)}
+      </ul>
     );
   }else{
-    return <ul/>;
+    return false;
   }
 };
 

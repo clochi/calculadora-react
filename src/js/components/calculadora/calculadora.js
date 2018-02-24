@@ -7,7 +7,8 @@ export default class Calculadora extends React.Component{
     super(props);
     this.state = {
       monto: '',
-      tna: ''
+      tna: '',
+      results: undefined
     };
     this.updateValues = this.updateValues.bind(this);
     this.handleForm = this.handleForm.bind(this);
@@ -29,18 +30,18 @@ export default class Calculadora extends React.Component{
   }
   updateValues(e){
     if(isNaN(e.target.value)) return false;
-    let state = this.state;
-    state[e.target.name] = e.target.value;
-    this.setState(state);
+    this.setState({[e.target.name]: e.target.value});
   }
   handleForm(e){
     e.preventDefault();
-    if(this.state.monto == '' | this.state.tna == '') return false;
-    var total;
-    this.results = this.Meses.map((item) => {
+    if(this.state.monto == '' || this.state.tna == '') return false;
+    var total = 0;
+    var results = [];
+    this.Meses.forEach((item) => {
       total += (this.state.monto * this.state.tna / 100) / 12;
-      return {mes: item, total: total};
+      results.push({mes: item, total: total});
     }, this);
+    this.setState({results: results});
   }
   render(){
     return(
@@ -51,7 +52,7 @@ export default class Calculadora extends React.Component{
           state={this.state}
           calcular={this.handleForm}
         />
-        <Lista result={this.results}/>
+        <Lista result={this.state.results}/>
       </div>
     );
   }

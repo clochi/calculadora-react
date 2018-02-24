@@ -6,6 +6,6 @@ const App = () => (
   <div>
     <Calculadora />
   </div>
-)
+);
 
 render(<App />, document.getElementById('app'));
