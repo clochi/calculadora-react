@@ -1,5 +1,6 @@
 import React from 'react';
 import Controles from './controles';
+import Lista from './Lista';
 
 export default class Calculadora extends React.Component{
   constructor(props){
@@ -10,19 +11,36 @@ export default class Calculadora extends React.Component{
     };
     this.updateValues = this.updateValues.bind(this);
     this.handleForm = this.handleForm.bind(this);
+    this.results;
+    this.Meses = [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "Abril",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Agosto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre"
+    ];
   }
-
-  /*shouldComponentUpdate(nextProps, nextState){
-    return this.state.monto !== nextState.monto | this.state.tna !== nextState.tna;
-  }*/
   updateValues(e){
+    if(isNaN(e.target.value)) return false;
     let state = this.state;
-    state[e.target.name] = parseInt(e.target.value);
+    state[e.target.name] = e.target.value;
     this.setState(state);
   }
   handleForm(e){
     e.preventDefault();
-    alert('Perfecto!!! Detuviste el evento y tienes el control del formulario :)');
+    if(this.state.monto == '' | this.state.tna == '') return false;
+    var total;
+    this.results = this.Meses.map((item) => {
+      total += (this.state.monto * this.state.tna / 100) / 12;
+      return {mes: item, total: total};
+    }, this);
   }
   render(){
     return(
@@ -31,7 +49,9 @@ export default class Calculadora extends React.Component{
         <Controles
           change={this.updateValues}
           state={this.state}
-          calcular={this.handleForm}/>
+          calcular={this.handleForm}
+        />
+        <Lista result={this.results}/>
       </div>
     );
   }
