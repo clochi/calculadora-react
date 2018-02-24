@@ -1,6 +1,6 @@
 import React from 'react';
 import Controles from './controles';
-import Lista from './Lista';
+import Lista from './lista';
 
 export default class Calculadora extends React.Component{
   constructor(props){
